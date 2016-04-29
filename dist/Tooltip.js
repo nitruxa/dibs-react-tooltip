@@ -116,7 +116,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            tooltipDirection: props.tooltipDirection,
 	            isVisible: props.isVisible
 	        };
-	
 	        return _this;
 	    }
 	
@@ -131,11 +130,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
 	            if (!this.props.isVisible && nextProps.isVisible) {
+	                var adjustPositionDebounced = debounce(this._adjustPosition, nextProps.debounce).bind(this);
+	                adjustPositionDebounced();
+	
 	                this.setState({
 	                    tooltipDirection: nextProps.tooltipDirection || this.state.tooltipDirection
 	                });
-	
-	                this._adjustPosition = debounce(this._adjustPosition, nextProps.debounce);
 	            }
 	
 	            this.setState({
@@ -291,8 +291,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	
 	                if (thresholdsBottom < thresholds.bottom) {
-	                    position.top += thresholdsBottom + thresholds.bottom;
-	                    position.triangleTop -= thresholdsBottom + thresholds.bottom;
+	                    position.top += thresholdsBottom;
+	                    position.triangleTop -= thresholdsBottom;
 	                    _this2.props.onThresholdPassed();
 	                }
 	

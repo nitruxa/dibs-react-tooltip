@@ -56,11 +56,12 @@ class Tooltip extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (!this.props.isVisible && nextProps.isVisible) {
+            const adjustPositionDebounced = debounce(this._adjustPosition, nextProps.debounce).bind(this);
+            adjustPositionDebounced();
+
             this.setState({
                 tooltipDirection: nextProps.tooltipDirection || this.state.tooltipDirection
             });
-
-            this._adjustPosition = debounce(this._adjustPosition, nextProps.debounce);
         }
 
         this.setState({
